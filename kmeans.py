@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-X =pd.read_csv('#')
+X =pd.read_csv('CMP3751M_CMP9772M_ML_Assignment 1_Task2 - dataset - dog breeds.csv')
 
 # Stack the height and tail_length arrays (column data from X) for use in the code below
 height = X['height'].values
@@ -35,8 +35,6 @@ def compute_euclidean_distance(vec_1, vec_2):
 def initialise_centroids(dataset, k):
     # Initialise centroid based on random int within the shape of the dataset given
     # to the size of the k supplied.
-    
-   #centroids = dataset.copy()
     centroids = dataset[np.random.randint(dataset.shape[0], size=k)]
     return centroids[:k]
 
@@ -70,6 +68,7 @@ def objFunc(datapoints, maxK):
     for i in range(1,maxK):
         centroids, cluster_assigned = kmeans(datapoints, i)
         objFunc.append(np.min(centroids))
+    
     return objFunc
 
 # Func to create the graph
@@ -78,7 +77,7 @@ def plotGraph(data, K, maxK):
     centroids, cluster_assigned = kmeans(data, K)
     
     # Begin figure creation. Plotting the datapoints from the file read in.
-    plt.scatter(datapoints[:,0], datapoints[:,1], alpha=0.5)
+#    plt.scatter(datapoints[:,0], datapoints[:,1], alpha=0.5)
     
     # Create the graph based on the amount of clusters required
     group_colors = ['skyblue', 'coral', 'lightgreen']
@@ -96,8 +95,8 @@ def plotGraph(data, K, maxK):
     #Objective Function line plot creation
     plt.plot(range(1,maxK), objFunc(data, maxK))
     plt.xlabel('Range of K')
-    plt.ylabel('Objective Function Centroid Result')
+    plt.ylabel('Variance')
     plt.show()
     
 # Use the plot graph function to plot the specified data points, K number and the max K for the line plot
-plotGraph(datapoints, 2, 10)
+plotGraph(datapoints2, 3, 6)
