@@ -7,6 +7,7 @@ Description To Understand with Sklearn, before attempting without:
 Euclidean Distance:
     https://stackoverflow.com/questions/1401712/how-can-the-euclidean-distance-be-calculated-with-numpy
 """
+# Import data from file before extracting the right values
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -39,6 +40,7 @@ def initialise_centroids(dataset, k):
     centroids = dataset[np.random.randint(dataset.shape[0], size=k)]
     return centroids[:k]
 
+# Kmeans function to return the clusters and their relevant centroid
 def kmeans(dataset, k):
     # Initialize the centroids for use
     centroids = initialise_centroids(dataset, k)
@@ -61,8 +63,9 @@ def kmeans(dataset, k):
             centroids[c] = np.mean(dataset[cluster_assigned == c], 0)
     return centroids, cluster_assigned
 
-# 
+# Objective Function to return the result used in the lineplot
 def objFunc(datapoints, maxK):
+    # Loop a K range and append the min kmeans returned variables to the array before returning
     objFunc = []
     for i in range(1,maxK):
         centroids, cluster_assigned = kmeans(datapoints, i)
@@ -71,10 +74,11 @@ def objFunc(datapoints, maxK):
 
 # Func to create the graph
 def plotGraph(data, K, maxK):
+    # Return the centroids/clusters for use below
     centroids, cluster_assigned = kmeans(data, K)
     
     # Begin figure creation. Plotting the datapoints from the file read in.
-    #plt.scatter(datapoints[:,0], datapoints[:,1], alpha=0.5)
+    plt.scatter(datapoints[:,0], datapoints[:,1], alpha=0.5)
     
     # Create the graph based on the amount of clusters required
     group_colors = ['skyblue', 'coral', 'lightgreen']
@@ -85,10 +89,15 @@ def plotGraph(data, K, maxK):
     colorCentres=['blue', 'darkred', 'green']
     colorCentre = [colorCentres[cC] for cC in range(0,K)]
     plt.scatter(centroids[:,0], centroids[:,1], color=colorCentre)
+    plt.ylabel('Length')
+    plt.xlabel('Height')
     plt.show()
     
-    #WCSS line plot creation
+    #Objective Function line plot creation
     plt.plot(range(1,maxK), objFunc(data, maxK))
+    plt.xlabel('Range of K')
+    plt.ylabel('Objective Function Centroid Result')
+    plt.show()
     
 # Use the plot graph function to plot the specified data points, K number and the max K for the line plot
-plotGraph(datapoints, 3, 10)
+plotGraph(datapoints, 2, 10)
